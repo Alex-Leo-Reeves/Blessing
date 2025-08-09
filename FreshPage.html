@@ -9,21 +9,54 @@
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
-    background: linear-gradient(to right, #4facfe, #00f2fe);
+    background: #0b1a2b; /* deep night blue */
     color: white;
     display: flex;
     flex-direction: column;
     align-items: center;
     min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
   }
+
+  /* Star twinkle effect */
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background:
+      radial-gradient(2px 2px at 20% 15%, #fff, transparent),
+      radial-gradient(1.5px 1.5px at 40% 30%, #fff, transparent),
+      radial-gradient(1.7px 1.7px at 50% 70%, #fff, transparent),
+      radial-gradient(1.2px 1.2px at 70% 50%, #fff, transparent),
+      radial-gradient(1.3px 1.3px at 80% 25%, #fff, transparent),
+      radial-gradient(1.5px 1.5px at 10% 60%, #fff, transparent),
+      radial-gradient(1.1px 1.1px at 90% 80%, #fff, transparent),
+      radial-gradient(2px 2px at 30% 85%, #fff, transparent);
+    animation: twinkle 4s infinite alternate ease-in-out;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  @keyframes twinkle {
+    0% {
+      opacity: 0.6;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
   h1 {
     margin-top: 30px;
     font-size: 2rem;
     text-align: center;
+    z-index: 1;
   }
   p {
     font-size: 1.2rem;
     text-align: center;
+    z-index: 1;
   }
   .envelope {
     width: 300px;
@@ -33,6 +66,7 @@
     perspective: 800px;
     cursor: pointer;
     animation: pulse 1.5s infinite ease-in-out;
+    z-index: 1;
   }
   @keyframes pulse {
     0%, 100% { transform: scale(1); }
@@ -148,7 +182,7 @@
 <h1>Welcome beautiful Blessing, Oghale!</h1>
 <p>You have successfully logged in.</p>
 
-<div class="envelope" id="envelope" role="button" aria-label="Open love message">
+<div class="envelope" id="envelope" role="button" aria-label="Open love message" tabindex="0">
   <div class="flap"></div>
   <div class="body"></div>
 </div>
@@ -220,7 +254,22 @@ You're the best
       closeModalBtn.click();
     }
   });
-</script>
 
+  // Accessibility: Allow keyboard to open envelope with Enter/Space
+  envelope.addEventListener('keydown', e => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      envelope.click();
+    }
+  });
+</script>
+<button class="logout-btn" onclick="logout()">Logout</button>
+
+<script>
+function logout() {
+  // This does NOT destroy server session; only redirects client
+  window.location.href = 'login.html';
+}
+</script>
 </body>
-    </html>
+</html>
