@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>For Everyone</title>
+    <style>
+        /* Full size fixed background */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: url('https://images.unsplash.com/photo-1501004318641-b39e6451bec6') no-repeat center center fixed;
+            background-size: cover;
+            color: #b71c1c; /* red color */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            text-align: center;
+            overflow-x: hidden; /* prevent horizontal scroll from petals */
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 5px rgba(255 255 255 / 0.9);
+        }
+
+        p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 3px rgba(255 255 255 / 0.9);
+            animation: fadeText 2s ease forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeText {
+            to {
+                opacity: 1;
+            }
+        }
+
+        #hiddenImage {
+            display: none;
+            max-width: 300px;
+            border-radius: 15px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+            user-select: none;
+            pointer-events: none;
+            margin: 15px 0;
+        }
+
+        button.view-btn {
+            background: gold;
+            color: black;
+            padding: 12px 25px;
+            border-radius: 25px;
+            border: none;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+
+        button.view-btn:hover {
+            background: orange;
+            transform: scale(1.05);
+        }
+
+        a.btn {
+            background: rgba(255, 215, 0, 0.9);
+            color: black;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            text-decoration: none;
+            margin: 10px 10px 0 10px;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        a.btn:hover {
+            background: rgba(255, 165, 0, 0.9);
+            transform: scale(1.05);
+        }
+
+        /* Petal styles */
+        .petal {
+            position: absolute;
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.85;
+            animation-name: fall, sway, spin;
+            animation-timing-function: linear, ease-in-out, linear;
+            animation-iteration-count: infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-50px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(110vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes sway {
+            0% {
+                transform: translateX(0);
+            }
+            50% {
+                transform: translateX(30px);
+            }
+            100% {
+                transform: translateX(-30px);
+            }
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            50% {
+                transform: rotate(180deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Responsive text scaling */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2rem;
+            }
+            p {
+                font-size: 1rem;
+                max-width: 90vw;
+            }
+            button.view-btn, a.btn {
+                font-size: 14px;
+                padding: 10px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Hey Everyone</h1>
+    <p>
+        There is a girl I know, she is pretty and she is smart.
+        A little bit wicked but still a very great girl, and no words can describe how I feel.
+        Everything else I want to say is special and for her alone.
+        But I want you to see her and see how beautiful her smile is,
+        how her smile is like the sun in the daytime to me,
+        and how every response from her is a great joy to me.
+        I don't know what to do with her and what to do with myself.
+    </p>
+
+    <button class="view-btn" onclick="showImage()">View Image</button>
+    <br />
+    <img
+        id="hiddenImage"
+        src="image1.jpg"
+        alt="Beautiful Smile"
+        oncontextmenu="return false"
+    />
+
+    <div>
+        <a href="freshpage.html" class="btn">Go Back</a>
+        <a href="Login.html" class="btn">For Blessing Only</a>
+    </div>
+
+    <script>
+        function showImage() {
+            const img = document.getElementById("hiddenImage");
+            img.style.display = "block";
+            setTimeout(() => {
+                img.style.display = "none";
+            }, 5000); // Hide after 5 seconds
+        }
+
+        const petalImages = [
+            'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Sakura_petal.svg/1024px-Sakura_petal.svg.png'
+        ];
+
+        function createPetal() {
+            const petal = document.createElement("div");
+            petal.classList.add("petal");
+
+            // Random size 15-35px
+            const size = Math.random() * 20 + 15;
+            petal.style.width = `${size}px`;
+            petal.style.height = `${size}px`;
+
+            // Random horizontal start position
+            petal.style.left = Math.random() * 100 + "vw";
+
+            // Use flower petal image
+            petal.style.backgroundImage = `url('${petalImages[0]}')`;
+
+            // Random animation durations
+            const fallDuration = (Math.random() * 5 + 5) + "s"; // 5-10s
+            const swayDuration = (Math.random() * 3 + 2) + "s"; // 2-5s
+            const spinDuration = (Math.random() * 4 + 3) + "s"; // 3-7s
+
+            petal.style.animationDuration = `${fallDuration}, ${swayDuration}, ${spinDuration}`;
+
+            document.body.appendChild(petal);
+
+            // Remove petal after 10 seconds
+            setTimeout(() => petal.remove(), 10000);
+        }
+
+        // Create a new petal every 300ms
+        setInterval(createPetal, 300);
+
+        // Disable PrintScreen key (basic prevention)
+        document.addEventListener("keyup", (e) => {
+            if (e.key === "PrintScreen") {
+                alert("Screenshots are disabled for this page.");
+            }
+        });
+    </script>
+</body>
+</html>

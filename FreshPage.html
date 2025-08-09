@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fresh PHP Page</title>
+    <style>
+        body {
+            background: url('https://images.unsplash.com/photo-1501004318641-b39e6451bec6') no-repeat center center fixed;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            text-align: center;
+            animation: zoomBackground 20s infinite alternate ease-in-out;
+            overflow: hidden;
+        }
+
+        @keyframes zoomBackground {
+            0% { background-size: 100% auto; }
+            100% { background-size: 110% auto; }
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 6px rgba(0,0,0,0.6);
+            z-index: 2;
+        }
+        p {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
+            z-index: 2;
+        }
+        .btn {
+            background: rgba(255, 215, 0, 0.9);
+            color: black;
+            padding: 15px 35px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            box-shadow: 0px 4px 8px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin: 12px;
+            z-index: 2;
+        }
+        .btn:hover {
+            background: rgba(255, 165, 0, 0.9);
+            transform: scale(1.05);
+        }
+
+        /* Flower petal animation */
+        .petal {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Sakura_petal.svg/1024px-Sakura_petal.svg.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.8;
+            animation: fall linear infinite;
+        }
+        @keyframes fall {
+            0% { transform: translateY(-50px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* Mobile-friendly */
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+            p { font-size: 1rem; }
+            .btn { padding: 12px 25px; font-size: 16px; }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Hi Welcome</h1>
+    <p>Select where you want to go:</p>
+
+    <a href="page1.html" class="btn">For Everyone</a>
+    <a href="Login.html" class="btn">For Blessing Only</a>
+
+    <!-- Petals -->
+    <script>
+        function createPetal() {
+            const petal = document.createElement('div');
+            petal.classList.add('petal');
+            petal.style.left = Math.random() * 100 + 'vw';
+            petal.style.animationDuration = (Math.random() * 5 + 5) + 's';
+            document.body.appendChild(petal);
+            setTimeout(() => petal.remove(), 10000);
+        }
+        setInterval(createPetal, 300);
+    </script>
+
+</body>
+</html>
