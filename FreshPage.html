@@ -1,108 +1,226 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fresh PHP Page</title>
-    <style>
-        body {
-            background: url('https://images.unsplash.com/photo-1501004318641-b39e6451bec6') no-repeat center center fixed;
-            background-size: cover;
-            font-family: Arial, sans-serif;
-            color: white;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            text-align: center;
-            animation: zoomBackground 20s infinite alternate ease-in-out;
-            overflow: hidden;
-        }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Welcome Beautiful Blessing</title>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #4facfe, #00f2fe);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+  }
+  h1 {
+    margin-top: 30px;
+    font-size: 2rem;
+    text-align: center;
+  }
+  p {
+    font-size: 1.2rem;
+    text-align: center;
+  }
+  .envelope {
+    width: 300px;
+    height: 200px;
+    margin-top: 40px;
+    position: relative;
+    perspective: 800px;
+    cursor: pointer;
+    animation: pulse 1.5s infinite ease-in-out;
+  }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+  .flap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-left: 150px solid transparent;
+    border-right: 150px solid transparent;
+    border-bottom: 100px solid #f50057;
+    transform-origin: top;
+    transition: transform 1s ease-in-out;
+    z-index: 2;
+  }
+  .body {
+    position: absolute;
+    top: 100px;
+    left: 0;
+    width: 300px;
+    height: 100px;
+    background: #ff4081;
+    z-index: 1;
+  }
+  .envelope.open .flap {
+    transform: rotateX(-180deg);
+  }
 
-        @keyframes zoomBackground {
-            0% { background-size: 100% auto; }
-            100% { background-size: 110% auto; }
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-            text-shadow: 2px 2px 6px rgba(0,0,0,0.6);
-            z-index: 2;
-        }
-        p {
-            font-size: 1.2rem;
-            margin-bottom: 40px;
-            text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
-            z-index: 2;
-        }
-        .btn {
-            background: rgba(255, 215, 0, 0.9);
-            color: black;
-            padding: 15px 35px;
-            border: none;
-            border-radius: 30px;
-            cursor: pointer;
-            font-size: 18px;
-            font-weight: bold;
-            box-shadow: 0px 4px 8px rgba(0,0,0,0.3);
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-            margin: 12px;
-            z-index: 2;
-        }
-        .btn:hover {
-            background: rgba(255, 165, 0, 0.9);
-            transform: scale(1.05);
-        }
-
-        /* Flower petal animation */
-        .petal {
-            position: absolute;
-            width: 30px;
-            height: 30px;
-            background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Sakura_petal.svg/1024px-Sakura_petal.svg.png');
-            background-size: contain;
-            background-repeat: no-repeat;
-            opacity: 0.8;
-            animation: fall linear infinite;
-        }
-        @keyframes fall {
-            0% { transform: translateY(-50px) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
-        }
-
-        /* Mobile-friendly */
-        @media (max-width: 600px) {
-            h1 { font-size: 1.8rem; }
-            p { font-size: 1rem; }
-            .btn { padding: 12px 25px; font-size: 16px; }
-        }
-    </style>
+  /* Modal styles */
+  .modal-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(0, 0, 0, 0.75);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    z-index: 9999;
+  }
+  .modal-overlay.active {
+    display: flex;
+  }
+  .modal-content {
+    background: white;
+    color: black;
+    max-width: 600px;
+    max-height: 80vh;
+    overflow-y: auto;
+    border-radius: 10px;
+    padding: 20px 30px 40px;
+    position: relative;
+    white-space: pre-wrap;
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+  .modal-close-btn {
+    position: absolute;
+    top: 10px; right: 15px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #555;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+  .modal-close-btn:hover {
+    color: #f50057;
+  }
+  .video-links {
+    margin-top: 20px;
+    text-align: center;
+  }
+  .video-links a {
+    display: inline-block;
+    background: #ff4081;
+    color: white;
+    text-decoration: none;
+    padding: 10px 15px;
+    margin: 5px;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: background 0.3s ease;
+  }
+  .video-links a:hover {
+    background: #f50057;
+  }
+  .whatsapp-btn {
+    display: inline-block;
+    margin-top: 15px;
+    background: #25d366;
+    color: white;
+    text-decoration: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 25px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.5);
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+  }
+  .whatsapp-btn:hover {
+    background: #1ebe57;
+    box-shadow: 0 6px 18px rgba(30, 190, 87, 0.7);
+  }
+</style>
 </head>
 <body>
 
-    <h1>Hi Welcome</h1>
-    <p>Select where you want to go:</p>
+<h1>Welcome beautiful Blessing, Oghale!</h1>
+<p>You have successfully logged in.</p>
 
-    <a href="page1.html" class="btn">For Everyone</a>
-    <a href="Login.html" class="btn">For Blessing Only</a>
+<div class="envelope" id="envelope" role="button" aria-label="Open love message">
+  <div class="flap"></div>
+  <div class="body"></div>
+</div>
 
-    <!-- Petals -->
-    <script>
-        function createPetal() {
-            const petal = document.createElement('div');
-            petal.classList.add('petal');
-            petal.style.left = Math.random() * 100 + 'vw';
-            petal.style.animationDuration = (Math.random() * 5 + 5) + 's';
-            document.body.appendChild(petal);
-            setTimeout(() => petal.remove(), 10000);
-        }
-        setInterval(createPetal, 300);
-    </script>
+<div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-content">
+    <button class="modal-close-btn" id="closeModalBtn" aria-label="Close message">&times;</button>
+    <div id="loveMessage" tabindex="0" aria-live="polite">
+Hey Blessing I know all this might be crazy but I wanted to do it 
+I remember the first day we talked on tiktok after I watched your video in your red gown it made my heart so happy so I sent you a message and from there we started talking 
+It was a very happy moment for me Oghale 
+Two days after your birthday
+I remember when I first met you, I was so very happy and scared but I felt so at ease with you that I just wanted to be very close to you like you'll be my comfort but you were too shy and kept on trying to create space between us but I kept on coming back to you and when I introduced you to my friends and when I got angry at one for trying to collect your phone 
+Every memory of you is a cherished memory to me because I do not see you all the time 
+I have seen you 6 times 
+The first time was when we met 
+The second time was when I saw you at coke villa
+The third time was when I saw you secretly 
+The fourth time was when I saw you running at 250
+The fifth was when we arranged to meet up 
+The sixth was when I saw you leaving class oh and the seventh was when I saw you going to the hostel from class swinging your bag as usual 
+You're pretty that I could watch your video and smile all day 
+You're so pretty that seeing you makes my heart tremble
+You're so pretty that my hands shake in fear
+Oh I don't know what to do with you Blessing 
+I can only wish I could call you mine, I really do 
+A wish is just a wish 
+Anyone I'll keep on trying to learn more about you but I already a few things about you Oghale
+I love the way you always say dohhh to me, it is my favorite word because of you 
+You can make anything my favorite
+Just as how you made yourself my favorite unknowingly 
+I want you to be free with me Blessing like I'm your twin and to tell me everything going on in your life 
+I want to hear it all no matter how small or tiny it is to me my interest is great that anything from you is important to me 
+This is starting to sound like a love letter, I wanted to write and compliment you and say you're nice but you're notttt Blessing well a little bit but just tiny 
+Anyway I hope you'll always be happy and try to lean on me if it is possible 
+Thank you for read this Blessing
+You're the best
+    </div>
+    <div class="video-links">
+      <a href="video1.MOV" download>Watch Video 1</a>
+      <a href="video2.MOV" download>Watch Video 2</a>
+      <br><br>
+      <a href="https://wa.link/r4wa4c" target="_blank" rel="noopener noreferrer" class="whatsapp-btn" id="whatsappLink">What do you think about this message?</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  const envelope = document.getElementById('envelope');
+  const modalOverlay = document.getElementById('modalOverlay');
+  const closeModalBtn = document.getElementById('closeModalBtn');
+
+  envelope.addEventListener('click', () => {
+    envelope.classList.add('open');
+    modalOverlay.classList.add('active');
+    // Disable page scroll when modal open
+    document.body.style.overflow = 'hidden';
+  });
+
+  closeModalBtn.addEventListener('click', () => {
+    modalOverlay.classList.remove('active');
+    envelope.classList.remove('open');
+    document.body.style.overflow = 'auto';
+  });
+
+  // Close modal if clicking outside the modal content
+  modalOverlay.addEventListener('click', e => {
+    if (e.target === modalOverlay) {
+      closeModalBtn.click();
+    }
+  });
+</script>
 
 </body>
-</html>
+    </html>
